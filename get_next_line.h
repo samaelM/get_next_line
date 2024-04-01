@@ -6,7 +6,7 @@
 /*   By: maemaldo <maemaldo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:04:47 by maemaldo          #+#    #+#             */
-/*   Updated: 2024/01/22 14:59:55 by maemaldo         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:30:51 by maemaldo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 #  define BUFFER_SIZE 42
 # endif
 
-typedef enum Bool
-{
-	False,
-	True
-}					t_Bool;
 typedef struct s_list
 {
 	int				content;

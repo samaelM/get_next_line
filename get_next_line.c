@@ -6,13 +6,13 @@
 /*   By: maemaldo <maemaldo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:04:45 by maemaldo          #+#    #+#             */
-/*   Updated: 2024/01/22 14:58:50 by maemaldo         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:36:34 by maemaldo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_strjoinlst(t_list **s1, char const *s2)
+int	ft_strjoinlst(t_list **s1, char const *s2)
 {
 	size_t	i;
 	t_list	*temp;
@@ -22,9 +22,11 @@ void	ft_strjoinlst(t_list **s1, char const *s2)
 	{
 		s1 = &(*s1)->next;
 	}
-	while (s2[i])
+	while (s2 && s2[i])
 	{
 		temp = ft_lstnew(s2[i]);
+		if (!temp)
+			return (0);
 		if (*s1)
 			(*s1)->next = temp;
 		else
@@ -32,6 +34,7 @@ void	ft_strjoinlst(t_list **s1, char const *s2)
 		s1 = &(*s1)->next;
 		i++;
 	}
+	return (1);
 }
 
 t_list	*ft_lstlast(t_list *lst)
@@ -81,7 +84,7 @@ char	*ft_line_cleaner(t_list **s)
 		*s = (*s)->next;
 		free(temp);
 	}
-	line[len] = 0;
+	line[len] = '\0';
 	return (line);
 }
 
@@ -89,46 +92,25 @@ char	*get_next_line(int fd)
 {
 	char			*buff;
 	static t_list	*stash;
-	size_t			n;
+	long long		n;
 
 	if (!stash)
 		stash = NULL;
-	buff = ft_calloc(BUFFER_SIZE + 1, 1);
+	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buff)
 		return (NULL);
 	n = 1;
-	while (ft_strchr(stash, '\n') == -1 && n > 0)
+	while ((ft_strchr(stash, '\n') == -1) && n > 0)
 	{
 		n = read(fd, buff, BUFFER_SIZE);
-		if (!*buff || n <= 0)
+		if (n <= 0)
 			break ;
-		(n)[buff] = 0;
-		ft_strjoinlst(&stash, buff);
+		buff[n] = '\0';
+		if (!ft_strjoinlst(&stash, buff))
+			return (NULL);
 	}
 	free(buff);
 	if (stash == NULL)
 		return (NULL);
 	return (ft_line_cleaner(&stash));
 }
-
-// #include <fcntl.h>
-// int main(void)
-// {
-// 	char *line;
-// 	int i = 10;
-// 	int fd = open("multiple_line_no_nl", O_RDWR);
-// 	while (i > 0)
-// 	{
-// 		line = get_next_line(fd);
-// 		// while (line)
-// 		// {
-// 		// 	printf("%c", line->content);
-// 		// 	line = line->next;
-// 		// }
-// 		printf("%s", line);
-// 		free(line);
-// 		i--;
-// 	}
-// 	close(fd);
-// 	return (1);
-// }
