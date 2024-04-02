@@ -6,7 +6,7 @@
 /*   By: maemaldo <maemaldo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 13:40:50 by maemaldo          #+#    #+#             */
-/*   Updated: 2024/03/13 15:24:37 by maemaldo         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:36:27 by maemaldo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,15 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*last;
-
-	if (*lst)
+	if (!*lst)
 	{
-		last = ft_lstlast(*lst);
-		last->next = new;
-	}
-	else
 		*lst = new;
+		return ;
+	}
+	ft_lstlast(*lst)->next = new;
 }
 
-t_list	*ft_lstnew(char content)
+t_list	*ft_lstnew(void *content)
 {
 	t_list	*node;
 
@@ -73,16 +70,13 @@ t_list	*ft_lstnew(char content)
 
 int	ft_lstsize(t_list *lst)
 {
-	int	i;
+	int	size;
 
-	i = 0;
-	if (!lst)
-		return (i);
-	while (lst->next != NULL)
+	size = 0;
+	while (lst)
 	{
-		i++;
 		lst = lst->next;
+		size++;
 	}
-	i++;
-	return (i);
+	return (size);
 }

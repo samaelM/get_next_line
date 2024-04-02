@@ -6,7 +6,7 @@
 /*   By: maemaldo <maemaldo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:04:45 by maemaldo          #+#    #+#             */
-/*   Updated: 2024/03/25 12:36:34 by maemaldo         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:24:36 by maemaldo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ int	ft_strjoinlst(t_list **s1, char const *s2)
 {
 	size_t	i;
 	t_list	*temp;
+	char	*jsp;
 
 	i = 0;
 	while (*s1 && (*s1)->next != NULL)
-	{
 		s1 = &(*s1)->next;
-	}
 	while (s2 && s2[i])
 	{
-		temp = ft_lstnew(s2[i]);
+		jsp = malloc(sizeof(char));
+		if (!jsp)
+			return (0);
+		jsp[0] = s2[i];
+		temp = ft_lstnew(jsp);
 		if (!temp)
 			return (0);
 		if (*s1)
@@ -39,10 +42,11 @@ int	ft_strjoinlst(t_list **s1, char const *s2)
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (!lst)
-		return (lst);
-	while (lst->next != NULL)
-		lst = lst->next;
+	if (lst)
+	{
+		while (lst->next)
+			lst = lst->next;
+	}
 	return (lst);
 }
 
@@ -55,7 +59,7 @@ int	ft_strchr(const t_list *s, int c)
 		return (-1);
 	while (s)
 	{
-		if (s->content == (char)c)
+		if (*(char *)s->content == (char)c)
 			return (i);
 		i++;
 		s = s->next;
@@ -79,9 +83,10 @@ char	*ft_line_cleaner(t_list **s)
 	i = 0;
 	while (*s != NULL && i < len)
 	{
-		line[i++] = (*s)->content;
+		line[i++] = *(char *)(*s)->content;
 		temp = (*s);
 		*s = (*s)->next;
+		free(temp->content);
 		free(temp);
 	}
 	line[len] = '\0';
@@ -114,3 +119,4 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (ft_line_cleaner(&stash));
 }
+

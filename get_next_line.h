@@ -6,7 +6,7 @@
 /*   By: maemaldo <maemaldo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:04:47 by maemaldo          #+#    #+#             */
-/*   Updated: 2024/03/13 15:30:51 by maemaldo         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:37:19 by maemaldo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 typedef struct s_list
 {
-	int				content;
+	void			*content;
 	struct s_list	*next;
 }					t_list;
 
@@ -35,7 +35,7 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 int					ft_strchr(const t_list *s, int c);
 char				*ft_line_cleaner(t_list **s);
-t_list				*ft_lstnew(char content);
+t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
