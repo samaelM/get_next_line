@@ -6,7 +6,7 @@
 /*   By: maemaldo <maemaldo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 09:04:45 by maemaldo          #+#    #+#             */
-/*   Updated: 2024/04/02 12:24:36 by maemaldo         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:28:53 by maemaldo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,3 +120,27 @@ char	*get_next_line(int fd)
 	return (ft_line_cleaner(&stash));
 }
 
+#include <stdio.h>
+#include <fcntl.h>
+#include <time.h>
+# include <stdlib.h>
+# include <unistd.h>
+#include "get_next_line.h"
+int main(int ac, char **av)
+{
+	(void)ac;
+	int t;
+	char *line;
+	int fd = open(av[1], O_RDWR);
+	t = clock();
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	printf("time spend=%f", (double)(clock()-t) / CLOCKS_PER_SEC);
+	close(fd);
+	return (1);
+}
