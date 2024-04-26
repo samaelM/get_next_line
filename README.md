@@ -1,5 +1,7 @@
 # get_next_line
 
+edit : this version is BAD like really BAD please do not use it in serious programs, it leaks if it doesn't read all the file. thx for your understanding
+
 hey!This is my version of the project get_next_line from shool 42. It's not the fastest but it sure works!(at least I hope it works)
 
 ## how to install
